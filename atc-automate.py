@@ -24,10 +24,16 @@ class ShapingProfile(object):
         return self._parameters
 
     @staticmethod
-    def from_file(file_):
+    def from_file(file_, named_format=True):
         """Load shaping profile from a file."""
 
-        return ShapingProfile(json.load(file_))
+        parameters = json.load(file_)
+
+        if named_format:
+            # the ATC repo profiles have their parameters wrapped
+            parameters = parameters["content"]
+
+        return ShapingProfile(parameters)
 
 
 class ATCAPI(object):
@@ -121,6 +127,11 @@ def main():
         action="store_true",
         help="apply profile even if shaping already in place")
     parser.add_argument(
+        "--format",
+        choices=["raw", "named"],
+        default="named",
+        help="format of profile parameters file")
+    parser.add_argument(
         "--verbosity",
         metavar="N",
         type=int,
@@ -141,7 +152,9 @@ def main():
     api = ATCAPI(args.api_host)
 
     with open(args.default_profile_path, "rt") as default_profile_file:
-        default_profile = ShapingProfile.from_file(default_profile_file)
+        default_profile = ShapingProfile.from_file(
+            default_profile_file,
+            named_format=args.format == "named")
 
     refresh_shaping(
         api,
