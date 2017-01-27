@@ -76,7 +76,7 @@ def refresh_shaping(api, default_profile, ip_min, ip_max, overwrite=False):
 
     ips = list(netaddr.iter_iprange(ip_min, ip_max, step=1))
 
-    logger.info("applying shaping to %i IPs", len(ips))
+    logger.info("ensuring shaping on %i IPs", len(ips))
 
     for ip in ips:
         profile = api.get_shaping(ip)
@@ -91,7 +91,7 @@ def refresh_shaping(api, default_profile, ip_min, ip_max, overwrite=False):
                 ip,
                 json.dumps(profile.parameters, indent=2))
 
-    logger.debug("shaping applied to %i IPs", len(ips))
+    logger.debug("shaping ensured on %i IPs", len(ips))
 
 
 def main():
