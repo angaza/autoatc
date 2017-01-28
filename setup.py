@@ -12,6 +12,7 @@ setuptools.setup(
     long_description=get_readme_rst(),
     url="http://github.com/angaza/autoatc",
     author="Angaza",
+    author_email="account.pypi@angaza.com",
     license="MIT",
     version="0.1.0",
     classifiers=[
