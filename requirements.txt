@@ -1,2 +1,0 @@
-requests>=2.4.2
-netaddr>=0.7.19
